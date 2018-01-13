@@ -24,7 +24,6 @@ namespace Checkers
 
             Pole.MoveFigure(one);   
 
-
             Console.ReadKey();
         }
     }
