@@ -22,8 +22,7 @@ namespace Checkers
 
             Figure one = Pole.SelectFigureForMove(figuresToMove);
 
-            Pole.MoveFigure(one);
-               
+            Pole.MoveFigure(one);   
 
 
             Console.ReadKey();
