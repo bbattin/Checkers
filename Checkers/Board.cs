@@ -84,7 +84,7 @@ namespace Checkers
                             OneCell.Fig = NewFig;
 
                             BlackFigs[iBlack] = NewFig;
-                            iBlack++;
+                            iBlack++; 
 
                         }
 
@@ -268,15 +268,14 @@ namespace Checkers
             if (CheckBorder(xleft, yleft) && Cells[xleft, yleft].Fig == null)
             {
                 theMove.isMove = true;
-                theMove.xleft = xleft;
-                theMove.yleft = yleft;
+                theMove.left = new Coordinate(xleft, yleft);
+                
             }
 
             if (CheckBorder(xright, yright) && Cells[xright, yright].Fig == null)
             {
                 theMove.isMove = true;
-                theMove.xright = xright;
-                theMove.yright = yright;
+                theMove.right = new Coordinate(xright, yright);
             }
 
             Fig.move = theMove;
@@ -396,10 +395,13 @@ namespace Checkers
         /// <param name="figure"></param>
         public void MoveFigure(Figure figure)
         {
-                      
-            Cell selectMove = Cells[figure.move.xleft, figure.move.yleft];
+            
+            Cell selectMove = CheckCellsForLeftMove(figure);
+            // сюда будем запоминать координату предыдущего выбора хода, если она не меняется то перекрашивать ячейки не будем
+            int prevX = selectMove.x;
+
             PrintMove(selectMove);
-                  
+
             ConsoleKey use;
 
             do
@@ -414,20 +416,32 @@ namespace Checkers
                         figure.y = selectMove.y;
                         PrintOneFigure(figure, figure.GetColorByState());
                         break;
+
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         break;
                     case ConsoleKey.UpArrow:
                     case ConsoleKey.RightArrow:
-                        selectMove = Cells[figure.move.xright, figure.move.yright];
-                        PrintMove(selectMove);
-                        PrintBlack(Cells[figure.move.xleft, figure.move.yleft]);
+
+                        selectMove = CheckCellsForRightMove(figure);
+                        if (prevX != selectMove.x)
+                        {
+                            PrintMove(selectMove);
+                            PrintBlack(Cells[figure.move.left.x, figure.move.left.y]);
+                            prevX = selectMove.x;
+                        }
                         break;
+
                     case ConsoleKey.DownArrow:
                     case ConsoleKey.LeftArrow:
-                        selectMove = Cells[figure.move.xleft, figure.move.yleft];
-                        PrintMove(selectMove);
-                        PrintBlack(Cells[figure.move.xright, figure.move.yright]);
+
+                        selectMove = CheckCellsForLeftMove(figure);
+                        if (prevX != selectMove.x)
+                        {
+                            PrintMove(selectMove);
+                            PrintBlack(Cells[figure.move.right.x, figure.move.right.y]);
+                            prevX = selectMove.x;
+                        }
                         break;
 
                 }
@@ -435,5 +449,46 @@ namespace Checkers
             } while (use != ConsoleKey.Enter && use != ConsoleKey.Escape);
             return;
         }
+
+        /// <summary>
+        /// проверка на нахождение возможных клеток для хода фигуры в пределах поля и получения координат первой возможной
+        /// </summary>
+        /// <param name="figure"></param>
+        /// <returns></returns>
+        private Cell CheckCellsForLeftMove(Figure figure)
+        {
+            Cell selectMove;
+
+            if (figure.move.left != null)
+            {
+                selectMove = Cells[figure.move.left.x, figure.move.left.y];
+
+            }
+            else
+            {
+                selectMove = Cells[figure.move.right.x, figure.move.right.y];
+            }
+
+            return selectMove;
+        }
+
+        private Cell CheckCellsForRightMove(Figure figure)
+        {
+            Cell selectMove;
+
+            if (figure.move.right != null)
+            {
+                selectMove = Cells[figure.move.right.x, figure.move.right.y];
+
+            }
+            else
+            {
+                selectMove = Cells[figure.move.left.x, figure.move.left.y];
+            }
+
+            return selectMove;
+        }
+
+        
     }
 }

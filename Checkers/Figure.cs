@@ -16,13 +16,13 @@ namespace Checkers
         White,
         WhiteQueen,
         Black,
-        BlackQueen
+        BlackQueen 
     }
 
     /// <summary>
     /// координата на шашечной доске
     /// </summary>
-    public class Coordinate                      // в процессе 
+    public class Coordinate                     
     {
         public int x;
         public int y;
@@ -40,9 +40,6 @@ namespace Checkers
     public struct FigMove
     {
         public bool isMove;   // возможность хода в принципе
-
-        public int xleft, yleft;
-        public int xright, yright;
 
         public Coordinate left, right;
      
