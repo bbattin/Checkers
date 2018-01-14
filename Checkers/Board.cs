@@ -262,31 +262,62 @@ namespace Checkers
         /// <returns></returns>
         public Figure GetFigMove(Figure Fig)
         {
-            FigMove theMove = new FigMove();
-
-            theMove.isMove = false;
-
-            int xleft = Fig.x - 1;
-            int yleft = Fig.y - 1;
-
-            int xright = Fig.x + 1;
-            int yright = Fig.y - 1;
-
-            if (CheckBorder(xleft, yleft) && Cells[xleft, yleft].Fig == null)
+            if (isWhiteMove)
             {
-                theMove.isMove = true;
-                theMove.left = new Coordinate(xleft, yleft);
-                
-            }
+                FigMove theMove = new FigMove();
 
-            if (CheckBorder(xright, yright) && Cells[xright, yright].Fig == null)
+                theMove.isMove = false;
+
+                int xleft = Fig.x - 1;
+                int yleft = Fig.y - 1;
+
+                int xright = Fig.x + 1;
+                int yright = Fig.y - 1;
+
+                if (CheckBorder(xleft, yleft) && Cells[xleft, yleft].Fig == null)
+                {
+                    theMove.isMove = true;
+                    theMove.left = new Coordinate(xleft, yleft);
+
+                }
+
+                if (CheckBorder(xright, yright) && Cells[xright, yright].Fig == null)
+                {
+                    theMove.isMove = true;
+                    theMove.right = new Coordinate(xright, yright);
+                }
+
+                Fig.move = theMove;
+                return Fig;
+            }
+            else
             {
-                theMove.isMove = true;
-                theMove.right = new Coordinate(xright, yright);
-            }
+                FigMove theMove = new FigMove();
 
-            Fig.move = theMove;
-            return Fig;
+                theMove.isMove = false;
+
+                int xleft = Fig.x - 1;
+                int yleft = Fig.y + 1;
+
+                int xright = Fig.x + 1;
+                int yright = Fig.y + 1;
+
+                if (CheckBorder(xleft, yleft) && Cells[xleft, yleft].Fig == null)
+                {
+                    theMove.isMove = true;
+                    theMove.left = new Coordinate(xleft, yleft);
+
+                }
+
+                if (CheckBorder(xright, yright) && Cells[xright, yright].Fig == null)
+                {
+                    theMove.isMove = true;
+                    theMove.right = new Coordinate(xright, yright);
+                }
+
+                Fig.move = theMove;
+                return Fig;
+            }
         }
 
         /// <summary>
@@ -553,6 +584,8 @@ namespace Checkers
                     Figure one = SelectFigureForMove(figuresToMove);
 
                     MoveFigure(one);
+
+                    isWhiteMove = false;
                 }
                 else
                 {
@@ -561,6 +594,8 @@ namespace Checkers
                     Figure one = SelectFigureForMove(figuresToMove);
 
                     MoveFigure(one);
+
+                    isWhiteMove = true;
                 }
             }
         }
