@@ -266,41 +266,29 @@ namespace Checkers
 
             theMove.isMove = false;
 
-            int xleft = 0;
-            int yleft = 0;
-            int xright = 0;
-            int yright = 0;
+            Coordinate left, right;
 
             if (isWhiteMove)
-            {               
-                xleft = Fig.x - 1;
-                yleft = Fig.y - 1;
-
-                xright = Fig.x + 1;
-                yright = Fig.y - 1;
-
-                
+            {
+                left  = new Coordinate(Fig.x - 1, Fig.y - 1);
+                right = new Coordinate(Fig.x + 1, Fig.y - 1);
             }
             else
-            {              
-                xleft = Fig.x - 1;
-                yleft = Fig.y + 1;
-
-                xright = Fig.x + 1;
-                yright = Fig.y + 1;                
+            {
+                left = new Coordinate(Fig.x - 1, Fig.y + 1);
+                right = new Coordinate(Fig.x + 1, Fig.y + 1);
             }
 
-            if (CheckBorder(xleft, yleft) && Cells[xleft, yleft].Fig == null)
+            if (CheckBorder(left.x, left.y) && Cells[left.x, left.y].Fig == null)
             {
                 theMove.isMove = true;
-                theMove.left = new Coordinate(xleft, yleft);
-
+                theMove.left = left;
             }
 
-            if (CheckBorder(xright, yright) && Cells[xright, yright].Fig == null)
+            if (CheckBorder(right.x, right.y) && Cells[right.x, right.y].Fig == null)
             {
                 theMove.isMove = true;
-                theMove.right = new Coordinate(xright, yright);
+                theMove.right = right;
             }
 
             Fig.move = theMove;
