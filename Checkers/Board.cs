@@ -302,13 +302,54 @@ namespace Checkers
                             theMove.isFight = true;
                         }
                     }
+                    else
+                    {
+                        // проверка клетки куда прыгаем после боя
+                        Coordinate aftreFight = new Coordinate(Fig.x - 1, Fig.y - 1);
+                        // если эта клетка на доске и свободна то можно бить
+                        if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
+                        {
+                            theMove.isFight = true;
+                        }
+                    }
                 }
             }
 
-            if (CheckBorder(right.x, right.y) && Cells[right.x, right.y].Fig == null)
-            {
-                theMove.isMove = true;
-                theMove.right = right;
+            if (CheckBorder(right.x, right.y))
+            { 
+                if (Cells[right.x, right.y].Fig == null)
+                {
+                    theMove.isMove = true;
+                    theMove.right = right;
+                }
+                else
+                {
+                    Figure fig = Cells[right.x, right.y].Fig;
+                    // если на клетке стоит черная фигура и ход белых
+                    if (fig.State == FigureState.Black && isWhiteMove)
+                    {
+                        // проверка клетки куда прыгаем после боя
+                        Coordinate aftreFight = new Coordinate(Fig.x + 1, Fig.y - 1);
+                        // если эта клетка на доске и свободна то можно бить
+                        if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
+                        {
+                            theMove.isFight = true;
+                        }
+                    }
+                    else
+                    {
+                        // проверка клетки куда прыгаем после боя
+                        Coordinate aftreFight = new Coordinate(Fig.x + 1, Fig.y - 1);
+                        // если эта клетка на доске и свободна то можно бить
+                        if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
+                        {
+                            theMove.isFight = true;
+                        }
+                    }
+                   
+                }
+            
+                
             }
 
             Fig.move = theMove;
