@@ -357,16 +357,16 @@ namespace Checkers
         }
 
         /// <summary>
-        /// получаем массив с белыми фигурами, которые могут походить на пустую клетку
+        /// получаем массив с белыми фигурами, которые могут походить на пустую клетку или массив фигур для боя
         /// </summary>
         /// <returns></returns>
         public Figure[] GetWhiteMoves()
         {
-            // массив фгур с возможным ходом
+            // массив фигур с возможным ходом
             Figure[] figuresToMove = new Figure[CnstFigCnt];
             int figMoveCnt = 0;
 
-            // массив фгур с возможным боем
+            // массив фигур с возможным боем
             Figure[] figuresToFight = new Figure[CnstFigCnt];
             int figFightCnt = 0;
 
@@ -423,6 +423,10 @@ namespace Checkers
         {
             Figure[] figuresToMove = new Figure[CnstFigCnt];
             int figMoveCnt = 0;
+            // массив фгур с возможным боем
+            Figure[] figuresToFight = new Figure[CnstFigCnt];
+            int figFightCnt = 0;
+
             for (int i = 0; i < CnstFigCnt; i++)
             {
                 Figure theFig = GetFigMove(BlackFigs[i]);
@@ -434,12 +438,27 @@ namespace Checkers
             }
 
             Figure[] returnToMove = new Figure[figMoveCnt];
-            for (int i = 0, j = 0; i < CnstFigCnt; i++)
+            // фигуры для боя имеют приимущество
+            if (figFightCnt > 0)
             {
-                if (figuresToMove[i] != null)
+                for (int i = 0, j = 0; i < CnstFigCnt; i++)
                 {
-                    returnToMove[j] = figuresToMove[i];
-                    j++;
+                    if (figuresToFight[i] != null)
+                    {
+                        returnToMove[j] = figuresToFight[i];
+                        j++;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0, j = 0; i < CnstFigCnt; i++)
+                {
+                    if (figuresToMove[i] != null)
+                    {
+                        returnToMove[j] = figuresToMove[i];
+                        j++;
+                    }
                 }
             }
 
@@ -544,21 +563,28 @@ namespace Checkers
                 switch (use)
                 {
                     case ConsoleKey.Enter:
-                        // на месте откуда походили рисуем пустую черную клетку (без шашки)
-                        PrintBlack(Cells[figure.x, figure.y]);
-                        // меняем фон выбора, на фон черной клетки
-                        PrintBlack(selectMove);
+                        if (figure.move.isFight)
+                        {
 
-                        // перемещение фигуры внутри массива Cells - очистка старой
-                        Cells[figure.x, figure.y].Fig = null;
+                        }
+                        else
+                        {
+                            // на месте откуда походили рисуем пустую черную клетку (без шашки)
+                            PrintBlack(Cells[figure.x, figure.y]);
+                            // меняем фон выбора, на фон черной клетки
+                            PrintBlack(selectMove);
 
-                        figure.x = selectMove.x;
-                        figure.y = selectMove.y;
-                        PrintOneFigure(figure, figure.GetColorByState());
+                            // перемещение фигуры внутри массива Cells - очистка старой
+                            Cells[figure.x, figure.y].Fig = null;
 
-                        // перемещение фигуры внутри массива Cells - установка новой
-                        Cells[figure.x, figure.y].Fig = figure;
+                            figure.x = selectMove.x;
+                            figure.y = selectMove.y;
+                            PrintOneFigure(figure, figure.GetColorByState());
 
+                            // перемещение фигуры внутри массива Cells - установка новой
+                            Cells[figure.x, figure.y].Fig = figure;
+                        }
+                        
                         break;
 
                     case ConsoleKey.Escape:
