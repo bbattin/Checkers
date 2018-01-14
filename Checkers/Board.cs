@@ -24,10 +24,16 @@ namespace Checkers
         Figure[] WhiteFigs = new Figure[CnstFigCnt];
         Figure[] BlackFigs = new Figure[CnstFigCnt];
 
+        /// <summary>
+        /// флаг хода белых
+        /// </summary>
+        bool isWhiteMove;
 
         // конструктор
         public Board()
         {
+            // так как у нас первыми ходят черные поэтому false
+            this.isWhiteMove = false;
             Init();
         }
 
