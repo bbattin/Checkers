@@ -416,14 +416,16 @@ namespace Checkers
         }
 
         /// <summary>
-        /// получаем массив с черными фигурами, которые могут походить на пустую клетку
+        /// получаем массив с черными фигурами, которые могут походить на пустую клетку или массив фигур для боя
         /// </summary>
         /// <returns></returns>
         public Figure[] GetBlacksMoves()
         {
+            // массив фигур с возможным ходом
             Figure[] figuresToMove = new Figure[CnstFigCnt];
             int figMoveCnt = 0;
-            // массив фгур с возможным боем
+
+            // массив фигур с возможным боем
             Figure[] figuresToFight = new Figure[CnstFigCnt];
             int figFightCnt = 0;
 
@@ -435,9 +437,16 @@ namespace Checkers
                     figuresToMove[figMoveCnt] = theFig;
                     figMoveCnt++;
                 }
+
+                if (theFig.move.isFight)
+                {
+                    figuresToFight[figFightCnt] = theFig;
+                    figFightCnt++;
+                }
             }
 
             Figure[] returnToMove = new Figure[figMoveCnt];
+
             // фигуры для боя имеют приимущество
             if (figFightCnt > 0)
             {
@@ -465,7 +474,7 @@ namespace Checkers
             return returnToMove;
         }
 
-        
+
         /// <summary>
         /// выбор фигуры для хода
         /// </summary>
@@ -565,7 +574,7 @@ namespace Checkers
                     case ConsoleKey.Enter:
                         if (figure.move.isFight)
                         {
-
+                            
                         }
                         else
                         {
