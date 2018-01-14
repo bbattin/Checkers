@@ -42,11 +42,22 @@ namespace Checkers
         /// </summary>
         public void Game()
         {
-            Figure[] figuresToMove = this.GetBlacksMoves();
+            // ходы в цикле
+            while (true)
+            {
+                if (isWhiteMove)
+                {
+                }
+                // только черные
+                else
+                { 
+                    Figure[] figuresToMove = this.GetBlacksMoves();
 
-            Figure one = this.SelectFigureForMove(figuresToMove);
+                    Figure one = this.SelectFigureForMove(figuresToMove);
 
-            this.MoveFigure(one);
+                    this.MoveFigure(one);
+                }
+            }
         }
 
         /// <summary>
@@ -428,11 +439,21 @@ namespace Checkers
                 switch (use)
                 {
                     case ConsoleKey.Enter:
+                        // на месте откуда походили рисуем пустую черную клетку (без шашки)
                         PrintBlack(Cells[figure.x, figure.y]);
+                        // меняем фон выбора, на фон черной клетки
                         PrintBlack(selectMove);
+
+                        // перемещение фигуры внутри массива Cells - очистка старой
+                        Cells[figure.x, figure.y].Fig = null;
+
                         figure.x = selectMove.x;
                         figure.y = selectMove.y;
                         PrintOneFigure(figure, figure.GetColorByState());
+
+                        // перемещение фигуры внутри массива Cells - установка новой
+                        Cells[figure.x, figure.y].Fig = figure;
+
                         break;
 
                     case ConsoleKey.Escape:
