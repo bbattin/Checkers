@@ -302,7 +302,17 @@ namespace Checkers
                             theMove.isFight = true;
                         }
                     }
-                   
+                    // если на клетке стоит белая фигура и ход черных
+                    if (fig.State == FigureState.White && isWhiteMove == false)
+                    {
+                        // проверка клетки куда прыгаем после боя
+                        Coordinate aftreFight = new Coordinate(fig.x - 1, fig.y + 1);
+                        // если эта клетка на доске и свободна то можно бить
+                        if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
+                        {
+                            theMove.isFight = true;
+                        }
+                    }
                 }
             }
 
@@ -327,7 +337,18 @@ namespace Checkers
                             theMove.isFight = true;
                         }
                     }
-                                       
+                    // если на клетке стоит белая фигура и ход черных
+                    if (fig.State == FigureState.White && isWhiteMove == false)
+                    {
+                        // проверка клетки куда прыгаем после боя
+                        Coordinate aftreFight = new Coordinate(fig.x + 1, fig.y + 1);
+                        // если эта клетка на доске и свободна то можно бить
+                        if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
+                        {
+                            theMove.isFight = true;
+                        }
+                    }
+
                 }
             
                 
