@@ -14,6 +14,7 @@ namespace Checkers
                                   
             Board Pole = new Board();
             Pole.PrintCells();
+
             Pole.PrintFigs();
 
             Pole.Game();

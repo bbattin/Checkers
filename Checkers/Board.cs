@@ -32,8 +32,8 @@ namespace Checkers
         // конструктор
         public Board()
         {
-            // так как у нас первыми ходят черные поэтому false
-            isWhiteMove = false;
+            // так как первыми ходят белые поэтому true
+            isWhiteMove = true;
             Init();
         }
 
@@ -45,13 +45,14 @@ namespace Checkers
             // ходы в цикле
             while (true)
             {
-                if (isWhiteMove)
+                if (isWhiteMove)               
                 {
+                    
                 }
-                // только черные
+                // только белые
                 else
                 {
-                    Figure[] figuresToMove = GetBlacksMoves();
+                    Figure[] figuresToMove = GetWhiteMoves();
 
                     Figure one = SelectFigureForMove(figuresToMove);
 
@@ -79,16 +80,31 @@ namespace Checkers
                     OneCell.x = i;
                     OneCell.y = j;
                    
-                    // белые
+                    // черные
                     if ((i % 2 == 0 && j % 2 == 0) || (i % 2 == 1 && j % 2 == 1))
                     {
                         OneCell.Color = CellColor.White;
                     }
                     else
-                    {
+                    {               
                         OneCell.Color = CellColor.Black;
-                        // расставляем фигуры - белые вверху
+                        // расставляем фигуры - черные вверху
                         if (j < 3)
+                        {
+                            Figure NewFig = new Figure();
+                            NewFig.x = i;
+                            NewFig.y = j;
+                            NewFig.State = FigureState.Black;
+
+                            // устанавливаем связь фигуры с клеткой
+                            OneCell.Fig = NewFig;
+                            BlackFigs[iBlack] = NewFig;
+                            iBlack++;
+                            
+                        }
+
+                        // тут белые
+                        if (j > 4)
                         {
                             Figure NewFig = new Figure();
                             NewFig.x = i;
@@ -99,21 +115,6 @@ namespace Checkers
                             OneCell.Fig = NewFig;
                             WhiteFigs[iWhite] = NewFig;
                             iWhite++;
-                        }
-
-                        // тут черные
-                        if (j > 4)
-                        {
-                            Figure NewFig = new Figure();
-                            NewFig.x = i;
-                            NewFig.y = j;
-                            NewFig.State = FigureState.Black;
-
-                            // устанавливаем связь фигуры с клеткой
-                            OneCell.Fig = NewFig;
-
-                            BlackFigs[iBlack] = NewFig;
-                            iBlack++; 
 
                         }
 
@@ -312,7 +313,38 @@ namespace Checkers
         }
 
         /// <summary>
-        /// получаем массив с фигурами, которые могут походить на пустую клетку
+        /// получаем массив с белыми фигурами, которые могут походить на пустую клетку
+        /// </summary>
+        /// <returns></returns>
+        public Figure[] GetWhiteMoves()
+        {
+            Figure[] figuresToMove = new Figure[CnstFigCnt];
+            int figMoveCnt = 0;
+            for (int i = 0; i < CnstFigCnt; i++)
+            {
+                Figure theFig = GetFigMove(WhiteFigs[i]);
+                if (theFig.move.isMove)
+                {
+                    figuresToMove[figMoveCnt] = theFig;
+                    figMoveCnt++;
+                }
+            }
+
+            Figure[] returnToMove = new Figure[figMoveCnt];
+            for (int i = 0, j = 0; i < CnstFigCnt; i++)
+            {
+                if (figuresToMove[i] != null)
+                {
+                    returnToMove[j] = figuresToMove[i];
+                    j++;
+                }
+            }
+
+            return returnToMove;
+        }
+
+        /// <summary>
+        /// получаем массив с черными фигурами, которые могут походить на пустую клетку
         /// </summary>
         /// <returns></returns>
         public Figure[] GetBlacksMoves()
@@ -342,6 +374,7 @@ namespace Checkers
             return returnToMove;
         }
 
+        
         /// <summary>
         /// выбор фигуры для хода
         /// </summary>
