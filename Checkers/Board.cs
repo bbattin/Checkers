@@ -47,16 +47,15 @@ namespace Checkers
             {
                 if (isWhiteMove)               
                 {
-                    
-                }
-                // только белые
-                else
-                {
                     Figure[] figuresToMove = GetWhiteMoves();
 
                     Figure one = SelectFigureForMove(figuresToMove);
 
                     MoveFigure(one);
+                }
+                else
+                {
+                    
                 }
             }
         }
