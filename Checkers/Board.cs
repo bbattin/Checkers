@@ -350,8 +350,6 @@ namespace Checkers
                     }
 
                 }
-            
-                
             }
 
             Fig.move = theMove;
@@ -364,8 +362,14 @@ namespace Checkers
         /// <returns></returns>
         public Figure[] GetWhiteMoves()
         {
+            // массив фгур с возможным ходом
             Figure[] figuresToMove = new Figure[CnstFigCnt];
             int figMoveCnt = 0;
+
+            // массив фгур с возможным боем
+            Figure[] figuresToFight = new Figure[CnstFigCnt];
+            int figFightCnt = 0;
+
             for (int i = 0; i < CnstFigCnt; i++)
             {
                 Figure theFig = GetFigMove(WhiteFigs[i]);
@@ -374,15 +378,37 @@ namespace Checkers
                     figuresToMove[figMoveCnt] = theFig;
                     figMoveCnt++;
                 }
-            }
 
-            Figure[] returnToMove = new Figure[figMoveCnt];
-            for (int i = 0, j = 0; i < CnstFigCnt; i++)
-            {
-                if (figuresToMove[i] != null)
+                if (theFig.move.isFight)
                 {
-                    returnToMove[j] = figuresToMove[i];
-                    j++;
+                    figuresToFight[figFightCnt] = theFig;
+                    figFightCnt++;
+                }
+            }
+            
+            Figure[] returnToMove = new Figure[figMoveCnt];
+
+            // фигуры для боя имеют приимущество
+            if (figFightCnt > 0)
+            {
+                for (int i = 0, j = 0; i < CnstFigCnt; i++)
+                {
+                    if (figuresToFight[i] != null)
+                    {
+                        returnToMove[j] = figuresToFight[i];
+                        j++;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0, j = 0; i < CnstFigCnt; i++)
+                {
+                    if (figuresToMove[i] != null)
+                    {
+                        returnToMove[j] = figuresToMove[i];
+                        j++;
+                    }
                 }
             }
 
