@@ -50,12 +50,14 @@ namespace Checkers
                 }
                 // только черные
                 else
-                { 
-                    Figure[] figuresToMove = this.GetBlacksMoves();
+                {
+                    Figure[] figuresToMove = GetBlacksMoves();
 
-            Figure one = SelectFigureForMove(figuresToMove);
+                    Figure one = SelectFigureForMove(figuresToMove);
 
-            MoveFigure(one);
+                    MoveFigure(one);
+                }
+            }
         }
 
         /// <summary>
