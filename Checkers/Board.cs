@@ -279,10 +279,30 @@ namespace Checkers
                 right = new Coordinate(Fig.x + 1, Fig.y + 1);
             }
 
-            if (CheckBorder(left.x, left.y) && Cells[left.x, left.y].Fig == null)
+            if (CheckBorder(left.x, left.y))
             {
-                theMove.isMove = true;
-                theMove.left = left;
+                // простой ход
+                if (Cells[left.x, left.y].Fig == null)
+                {
+                    theMove.isMove = true;
+                    theMove.left = left;
+                }
+                // клетка занята, нужно проверить возможность боя
+                else 
+                {
+                    Figure fig = Cells[left.x, left.y].Fig;
+                    // если на клетке стоит черная фигура и ход белых
+                    if (fig.State == FigureState.Black && isWhiteMove)
+                    {
+                        // проверка клетки куда прыгаем после боя
+                        Coordinate aftreFight = new Coordinate(Fig.x - 1, Fig.y - 1);
+                        // если эта клетка на доске и свободна то можно бить
+                        if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
+                        {
+                            theMove.isFight = true;
+                        }
+                    }
+                }
             }
 
             if (CheckBorder(right.x, right.y) && Cells[right.x, right.y].Fig == null)
