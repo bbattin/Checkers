@@ -37,29 +37,7 @@ namespace Checkers
             Init();
         }
 
-        /// <summary>
-        /// метод ходов игры. чередуют ходы белых и черных
-        /// </summary>
-        public void Game()
-        {
-            // ходы в цикле
-            while (true)
-            {
-                if (isWhiteMove)               
-                {
-                    Figure[] figuresToMove = GetWhiteMoves();
-
-                    Figure one = SelectFigureForMove(figuresToMove);
-
-                    MoveFigure(one);
-                }
-                else
-                {
-                    
-                }
-            }
-        }
-
+      
         /// <summary>
         /// заполнение массивов клеток и фигур, привязка их друг к другу 
         /// </summary>
@@ -560,6 +538,32 @@ namespace Checkers
             return selectMove;
         }
 
-        
+        /// <summary>
+        /// метод ходов игры. чередуют ходы белых и черных
+        /// </summary>
+        public void Game()
+        {
+            // ходы в цикле
+            while (true)
+            {
+                if (isWhiteMove)
+                {
+                    Figure[] figuresToMove = GetWhiteMoves();
+
+                    Figure one = SelectFigureForMove(figuresToMove);
+
+                    MoveFigure(one);
+                }
+                else
+                {
+                    Figure[] figuresToMove = GetBlacksMoves();
+
+                    Figure one = SelectFigureForMove(figuresToMove);
+
+                    MoveFigure(one);
+                }
+            }
+        }
+
     }
 }
