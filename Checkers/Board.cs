@@ -33,7 +33,7 @@ namespace Checkers
         public Board()
         {
             // так как у нас первыми ходят черные поэтому false
-            this.isWhiteMove = false;
+            isWhiteMove = false;
             Init();
         }
 
@@ -44,9 +44,9 @@ namespace Checkers
         {
             Figure[] figuresToMove = this.GetBlacksMoves();
 
-            Figure one = this.SelectFigureForMove(figuresToMove);
+            Figure one = SelectFigureForMove(figuresToMove);
 
-            this.MoveFigure(one);
+            MoveFigure(one);
         }
 
         /// <summary>
