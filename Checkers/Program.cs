@@ -14,14 +14,9 @@ namespace Checkers
                                   
             Board Pole = new Board();
             Pole.PrintCells();
-                      
             Pole.PrintFigs();
 
-            Figure[] figuresToMove = Pole.GetBlacksMoves();
-
-            Figure one = Pole.SelectFigureForMove(figuresToMove);
-
-            Pole.MoveFigure(one);   
+            Pole.Game();
 
             Console.ReadKey();
         }

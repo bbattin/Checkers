@@ -38,6 +38,18 @@ namespace Checkers
         }
 
         /// <summary>
+        /// метод ходов игры. чередуют ходы белых и черных
+        /// </summary>
+        public void Game()
+        {
+            Figure[] figuresToMove = this.GetBlacksMoves();
+
+            Figure one = this.SelectFigureForMove(figuresToMove);
+
+            this.MoveFigure(one);
+        }
+
+        /// <summary>
         /// заполнение массивов клеток и фигур, привязка их друг к другу 
         /// </summary>
         public void Init()
