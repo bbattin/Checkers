@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Checkers
 {
-    class Board
+    public class BoardLogic
     {
         /// <summary>
         /// количество фигур одного цвета
         /// </summary>
-        const int CnstFigCnt = 12;
+        public const int FIGSCOUNT = 12;
 
         /// <summary>
         /// массив клеток
         /// </summary>
-        Cell[,] Cells;
+        public Cell[,] Cells;
 
         /// <summary>
         /// массивы черных и белых фигур
         /// </summary>
-        Figure[] WhiteFigs = new Figure[CnstFigCnt];
-        Figure[] BlackFigs = new Figure[CnstFigCnt];
+        public Figure[] WhiteFigs = new Figure[FIGSCOUNT];
+        public Figure[] BlackFigs = new Figure[FIGSCOUNT];
 
         /// <summary>
         /// флаг хода белых
@@ -30,7 +30,7 @@ namespace Checkers
         bool isWhiteMove;
 
         // конструктор
-        public Board()
+        public BoardLogic()
         {
             // так как первыми ходят белые поэтому true
             isWhiteMove = true;
@@ -103,147 +103,7 @@ namespace Checkers
         }
 
 
-        /// <summary>
-        /// печать белой клетки
-        /// </summary>
-        /// <param name="OneCell"></param>
-        public void PrintWhite(Cell OneCell)
-        {
-            PrintOneCell(OneCell, ConsoleColor.Gray);
-        }
-
-        /// <summary>
-        /// печать черной клетки
-        /// </summary>
-        /// <param name="OneCell"></param>
-        public void PrintBlack(Cell OneCell)
-        {
-            PrintOneCell(OneCell, ConsoleColor.DarkGray);
-        }
-
-        /// <summary>
-        /// печать клетки при выборе фигуры для хода
-        /// </summary>
-        /// <param name="OneCell"></param>
-        public void PrintSelect(Cell OneCell)
-        {
-            PrintOneCell(OneCell, ConsoleColor.Cyan);
-        }
-
-        /// <summary>
-        /// печать клетки с возможным ходом
-        /// </summary>
-        /// <param name="OneCell"></param>
-        public void PrintMove(Cell OneCell)
-        {
-            PrintOneCell(OneCell, ConsoleColor.Green);
-        }
-
-        /// <summary>
-        /// размер клетки экранный
-        /// </summary>
-        const int sizeCell = 3;
-
-        /// <summary>
-        /// экранная координата начала печати поля по иксу
-        /// </summary>
-        const int xConst = 5;
-
-        /// <summary>
-        /// экранная координата печати поля по игрику
-        /// </summary>
-        const int yConst = 3;
-
-        /// <summary>
-        /// печать одной клетки
-        /// </summary>
-        /// <param name="OneCell"></param>
-        /// <param name="Col"></param>
-        public void PrintOneCell(Cell OneCell, ConsoleColor Col)
-        {
-            for (int i = 0; i < sizeCell; i++)
-            {
-                for (int j = 0; j < sizeCell; j++)
-                {
-                    int xout = xConst + OneCell.x * sizeCell;
-                    int yout = yConst + OneCell.y * sizeCell;
-                    Console.BackgroundColor = Col;
-                    Console.SetCursorPosition(xout + j, yout + i);
-                    Console.Write(" ");
-                }
-            }
-        }
-
-        /// <summary>
-        /// печать всех клеток 
-        /// </summary>
-        public void PrintCells()
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    // белые
-                    if (Cells[i, j].Color == CellColor.White)
-                    {
-                        PrintWhite(Cells[i, j]);
-                    }
-                    else
-                    {
-                        PrintBlack(Cells[i, j]);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// печать одной фигуры
-        /// </summary>
-        /// <param name="OneFig"></param>
-        /// <param name="ColFig"></param>
-        /// <param name="back"></param>
-        public void PrintOneFigure(Figure OneFig, ConsoleColor ColFig, ConsoleColor back = ConsoleColor.DarkGray)
-        {
-
-            int xout = xConst + OneFig.x * sizeCell;
-            int yout = yConst + OneFig.y * sizeCell;
-            Console.BackgroundColor = back;
-            Console.ForegroundColor = ColFig;
-            Console.SetCursorPosition(xout + 1, yout + 1);
-            Console.Write("O");
-
-        }
-
-        /// <summary>
-        /// печать белой фигуры
-        /// </summary>
-        /// <param name="OneFig"></param>
-        public void PrintWhiteFig(Figure OneFig)
-        {
-            PrintOneFigure(OneFig, ConsoleColor.White);
-        }
-
-        /// <summary>
-        /// печать черной фигуры
-        /// </summary>
-        /// <param name="OneFig"></param>
-        public void PrintBlackFig(Figure OneFig)
-        {
-            PrintOneFigure(OneFig, ConsoleColor.Black);
-        }
-
-        /// <summary>
-        /// печать всех фигур
-        /// </summary>
-        public void PrintFigs()
-        {
-            for (int i = 0; i < CnstFigCnt; i++)
-            {
-                PrintWhiteFig(WhiteFigs[i]);
-                PrintBlackFig(BlackFigs[i]);
-
-            }
-        }
+        
         /// <summary>
         /// проверка на правильность координат, чтобы не уходили за поле
         /// </summary>
@@ -392,14 +252,14 @@ namespace Checkers
         public Figure[] GetWhiteMoves()
         {
             // массив фигур с возможным ходом
-            Figure[] figuresToMove = new Figure[CnstFigCnt];
+            Figure[] figuresToMove = new Figure[FIGSCOUNT];
             int figMoveCnt = 0;
 
             // массив фигур с возможным боем
-            Figure[] figuresToFight = new Figure[CnstFigCnt];
+            Figure[] figuresToFight = new Figure[FIGSCOUNT];
             int figFightCnt = 0;
 
-            for (int i = 0; i < CnstFigCnt; i++)
+            for (int i = 0; i < FIGSCOUNT; i++)
             {
                 // если фигура удалена из списка (побита) то пропускаем ее
                 if (WhiteFigs[i] == null) continue;
@@ -424,7 +284,7 @@ namespace Checkers
             if (figFightCnt > 0)
             {
                 returnToMove = new Figure[figFightCnt];
-                for (int i = 0, j = 0; i < CnstFigCnt; i++)
+                for (int i = 0, j = 0; i < FIGSCOUNT; i++)
                 {
                     if (figuresToFight[i] != null)
                     {
@@ -436,7 +296,7 @@ namespace Checkers
             else
             {
                 returnToMove = new Figure[figMoveCnt];
-                for (int i = 0, j = 0; i < CnstFigCnt; i++)
+                for (int i = 0, j = 0; i < FIGSCOUNT; i++)
                 {
                     if (figuresToMove[i] != null)
                     {
@@ -456,14 +316,14 @@ namespace Checkers
         public Figure[] GetBlacksMoves()
         {
             // массив фигур с возможным ходом
-            Figure[] figuresToMove = new Figure[CnstFigCnt];
+            Figure[] figuresToMove = new Figure[FIGSCOUNT];
             int figMoveCnt = 0;
 
             // массив фигур с возможным боем
-            Figure[] figuresToFight = new Figure[CnstFigCnt];
+            Figure[] figuresToFight = new Figure[FIGSCOUNT];
             int figFightCnt = 0;
 
-            for (int i = 0; i < CnstFigCnt; i++)
+            for (int i = 0; i < FIGSCOUNT; i++)
             {
                 // если фигура удалена из списка (побита) то пропускаем ее
                 if (BlackFigs[i] == null) continue;
@@ -488,7 +348,7 @@ namespace Checkers
             if (figFightCnt > 0)
             {
                 returnToMove = new Figure[figFightCnt];
-                for (int i = 0, j = 0; i < CnstFigCnt; i++)
+                for (int i = 0, j = 0; i < FIGSCOUNT; i++)
                 {
                     if (figuresToFight[i] != null)
                     {
@@ -500,7 +360,7 @@ namespace Checkers
             else
             {
                 returnToMove = new Figure[figMoveCnt];
-                for (int i = 0, j = 0; i < CnstFigCnt; i++)
+                for (int i = 0, j = 0; i < FIGSCOUNT; i++)
                 {
                     if (figuresToMove[i] != null)
                     {
@@ -521,7 +381,7 @@ namespace Checkers
             // для черных и белых отдельные списки
             if (delFigure.State == FigureState.Black)
             {
-                for (int i = 0; i < CnstFigCnt; i++)
+                for (int i = 0; i < FIGSCOUNT; i++)
                 {
                     // если фигура удалена из списка (побита) то пропускаем ее
                     if (BlackFigs[i] == null) continue;
@@ -537,7 +397,7 @@ namespace Checkers
             }
             else
             {
-                for (int i = 0; i < CnstFigCnt; i++)
+                for (int i = 0; i < FIGSCOUNT; i++)
                 {
                     // если фигура удалена из списка (побита) то пропускаем ее
                     if (WhiteFigs[i] == null) continue;
@@ -562,8 +422,8 @@ namespace Checkers
         {
             int i = 0;
             Figure select = figuresToMove[i];
-            PrintSelecByFig(select);
-            PrintOneFigure(select, select.GetColorByState(), ConsoleColor.Cyan);
+            UI.PrintSelecByFig(select, Cells);
+            UI.PrintOneFigure(select, select.GetColorByState(), ConsoleColor.Cyan);
             ConsoleKey use;
 
             do
@@ -582,11 +442,11 @@ namespace Checkers
                         if (i < figuresToMove.Length-1)
                         {
                             i++;
-                            PrintCellByFig(select);
-                            PrintOneFigure(select, select.GetColorByState());
+                            UI.PrintCellByFig(select, Cells);
+                            UI.PrintOneFigure(select, select.GetColorByState());
                             select = figuresToMove[i];
-                            PrintSelecByFig(select);
-                            PrintOneFigure(select, select.GetColorByState(), ConsoleColor.Cyan);
+                            UI.PrintSelecByFig(select, Cells);
+                            UI.PrintOneFigure(select, select.GetColorByState(), ConsoleColor.Cyan);
                         }
                         break;
                     case ConsoleKey.DownArrow:
@@ -594,11 +454,11 @@ namespace Checkers
                         if (i > 0)
                         {
                             i--;
-                            PrintCellByFig(select);
-                            PrintOneFigure(select, select.GetColorByState());
+                            UI.PrintCellByFig(select, Cells);
+                            UI.PrintOneFigure(select, select.GetColorByState());
                             select = figuresToMove[i];
-                            PrintSelecByFig(select);
-                            PrintOneFigure(select, select.GetColorByState(), ConsoleColor.Cyan);
+                            UI.PrintSelecByFig(select, Cells);
+                            UI.PrintOneFigure(select, select.GetColorByState(), ConsoleColor.Cyan);
                         }
                         break;
 
@@ -609,25 +469,7 @@ namespace Checkers
             return select;
         }
 
-        /// <summary>
-        /// печать выделенной фигуры
-        /// </summary>
-        /// <param name="select"></param>
-        private void PrintSelecByFig(Figure select)
-        {
-            Cell sel = Cells[select.x, select.y];
-            PrintSelect(sel);
-        }
-
-        /// <summary>
-        /// печать выделенной клетки
-        /// </summary>
-        /// <param name="select"></param>
-        private void PrintCellByFig(Figure select)
-        {
-            Cell sel = Cells[select.x, select.y];
-            PrintOneCell(sel, ConsoleColor.DarkGray);
-        }
+        
 
         /// <summary>
         /// ход фигурой после ее выбора, изменения состояния прежней и следующей клетки
@@ -640,7 +482,7 @@ namespace Checkers
             // сюда будем запоминать координату предыдущего выбора хода, если она не меняется то перекрашивать ячейки не будем
             int prevX = selectMove.x;
 
-            PrintMove(selectMove);
+            UI.PrintMove(selectMove);
 
             ConsoleKey use;
 
@@ -654,7 +496,7 @@ namespace Checkers
                         if (figure.move.isFight)
                         {
                             // уберем шашку которую перепрыгиваем
-                            PrintBlack(Cells[figure.move.fight.x, figure.move.fight.y]);
+                            UI.PrintBlack(Cells[figure.move.fight.x, figure.move.fight.y]);
                             // очистка убитой шашки
                             Figure delFigure = Cells[figure.move.fight.x, figure.move.fight.y].Fig;
                             // удаляем из списка фигур
@@ -664,16 +506,16 @@ namespace Checkers
                         }
 
                         // на месте откуда походили рисуем пустую черную клетку (без шашки)
-                        PrintBlack(Cells[figure.x, figure.y]);
+                        UI.PrintBlack(Cells[figure.x, figure.y]);
                         // меняем фон выбора, на фон черной клетки
-                        PrintBlack(selectMove);
+                        UI.PrintBlack(selectMove);
 
                         // перемещение фигуры внутри массива Cells - очистка старой
                         Cells[figure.x, figure.y].Fig = null;
 
                         figure.x = selectMove.x;
                         figure.y = selectMove.y;
-                        PrintOneFigure(figure, figure.GetColorByState());
+                        UI.PrintOneFigure(figure, figure.GetColorByState());
 
                         // перемещение фигуры внутри массива Cells - установка новой
                         Cells[figure.x, figure.y].Fig = figure;
@@ -689,8 +531,8 @@ namespace Checkers
                         selectMove = CheckCellsForRightMove(figure);
                         if (prevX != selectMove.x)
                         {
-                            PrintMove(selectMove);
-                            PrintBlack(Cells[figure.move.left.x, figure.move.left.y]);
+                            UI.PrintMove(selectMove);
+                            UI.PrintBlack(Cells[figure.move.left.x, figure.move.left.y]);
                             prevX = selectMove.x;
                         }
                         break;
@@ -701,8 +543,8 @@ namespace Checkers
                         selectMove = CheckCellsForLeftMove(figure);
                         if (prevX != selectMove.x)
                         {
-                            PrintMove(selectMove);
-                            PrintBlack(Cells[figure.move.right.x, figure.move.right.y]);
+                            UI.PrintMove(selectMove);
+                            UI.PrintBlack(Cells[figure.move.right.x, figure.move.right.y]);
                             prevX = selectMove.x;
                         }
                         break;

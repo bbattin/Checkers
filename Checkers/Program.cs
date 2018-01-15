@@ -12,7 +12,7 @@ namespace Checkers
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
                                   
-            Board Pole = new Board();
+            BoardLogic Pole = new BoardLogic();
             Pole.PrintCells();
 
             Pole.PrintFigs();
