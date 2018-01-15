@@ -13,9 +13,9 @@ namespace Checkers
             Console.OutputEncoding = System.Text.Encoding.UTF8;
                                   
             BoardLogic Pole = new BoardLogic();
-            Pole.PrintCells();
+            UI.PrintCells(Pole.Cells);
 
-            Pole.PrintFigs();
+            UI.PrintFigs(Pole.WhiteFigs, Pole.BlackFigs);
 
             Pole.Game();
 
