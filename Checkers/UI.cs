@@ -154,9 +154,9 @@ namespace Checkers
         /// печать выделенной фигуры
         /// </summary>
         /// <param name="select"></param>
-        private static void PrintSelecByFig(Figure select, Cell[,] cells)
+        public static void PrintSelecByFig(Figure select, Cell[,] cells)
         {
-            Cell sel = Cells[select.x, select.y];
+            Cell sel = cells[select.x, select.y];
             PrintSelect(sel);
         }
 
@@ -164,7 +164,7 @@ namespace Checkers
         /// печать выделенной клетки
         /// </summary>
         /// <param name="select"></param>
-        private static void PrintCellByFig(Figure select, Cell[,] cells)
+        public static void PrintCellByFig(Figure select, Cell[,] cells)
         {
             Cell sel = cells[select.x, select.y];
             PrintOneCell(sel, ConsoleColor.DarkGray);
