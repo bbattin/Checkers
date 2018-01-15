@@ -265,6 +265,7 @@ namespace Checkers
             FigMove theMove = new FigMove();
 
             theMove.isMove = false;
+            theMove.isFight = false;
 
             Coordinate left, right;
 
@@ -279,9 +280,10 @@ namespace Checkers
                 right = new Coordinate(Fig.x + 1, Fig.y + 1);
             }
 
+            // проверка хода налево
             if (CheckBorder(left.x, left.y))
             {
-                // простой ход
+                // простой ход - клетка свободна
                 if (Cells[left.x, left.y].Fig == null)
                 {
                     theMove.isMove = true;
@@ -300,7 +302,6 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.left = aftreFight;
                             // клетка которую перепрыгиваем и на котрой стоит шашка другого цвета
                             theMove.fight = left;
@@ -315,7 +316,6 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.left = aftreFight;
                             theMove.fight = left;
                         }
@@ -323,12 +323,17 @@ namespace Checkers
                 }
             }
 
+            // проверка хода вправо
             if (CheckBorder(right.x, right.y))
             { 
                 if (Cells[right.x, right.y].Fig == null)
                 {
-                    theMove.isMove = true;
-                    theMove.right = right;
+                    // тольк если ход на лево не был боем, оставим возможность походить вправо
+                    if (theMove.isFight == false)
+                    {
+                        theMove.isMove = true;
+                        theMove.right = right;
+                    }
                 }
                 else
                 {
@@ -342,9 +347,15 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.right = aftreFight;
                             theMove.fight = right;
+
+                            // если определили что можно походить на лево, то это нужно отменить при бое
+                            if (theMove.isMove)
+                            {
+                                theMove.isMove = false;
+                                theMove.left = null;
+                            }
                         }
                     }
                     // если на клетке стоит белая фигура и ход черных
@@ -356,9 +367,14 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.right = aftreFight;
                             theMove.fight = right;
+                            // если определили что можно походить на лево, то это нужно отменить при бое
+                            if (theMove.isMove)
+                            {
+                                theMove.isMove = false;
+                                theMove.left = null;
+                            }
                         }
                     }
 
