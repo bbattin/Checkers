@@ -708,6 +708,9 @@ namespace Checkers
             {
                 if (isWhiteMove)
                 {
+                    Console.SetCursorPosition(40, 3);
+                    Console.WriteLine("Player 1");
+
                     Figure[] figuresToMove = GetWhiteMoves();
 
                     Figure one = SelectFigureForMove(figuresToMove);
@@ -715,9 +718,13 @@ namespace Checkers
                     MoveFigure(one);
 
                     isWhiteMove = false;
+                    
                 }
                 else
                 {
+                    Console.SetCursorPosition(40, 3);
+                    Console.WriteLine("Player 2");
+
                     Figure[] figuresToMove = GetBlacksMoves();
 
                     Figure one = SelectFigureForMove(figuresToMove);
