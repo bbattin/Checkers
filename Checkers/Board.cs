@@ -300,6 +300,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.isMove = false;
                             theMove.left = aftreFight;
                             // клетка которую перепрыгиваем и на котрой стоит шашка другого цвета
                             theMove.fight = left;
@@ -314,6 +315,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.isMove = false;
                             theMove.left = aftreFight;
                             theMove.fight = left;
                         }
@@ -340,6 +342,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.isMove = false;
                             theMove.right = aftreFight;
                             theMove.fight = right;
                         }
@@ -353,6 +356,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.isMove = false;
                             theMove.right = aftreFight;
                             theMove.fight = right;
                         }
