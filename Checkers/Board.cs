@@ -301,6 +301,8 @@ namespace Checkers
                         {
                             theMove.isFight = true;
                             theMove.left = aftreFight;
+                            // клетка которую перепрыгиваем и на котрой стоит шашка другого цвета
+                            theMove.fight = left;
                         }
                     }
                     // если на клетке стоит белая фигура и ход черных
@@ -313,6 +315,7 @@ namespace Checkers
                         {
                             theMove.isFight = true;
                             theMove.left = aftreFight;
+                            theMove.fight = left;
                         }
                     }
                 }
@@ -338,6 +341,7 @@ namespace Checkers
                         {
                             theMove.isFight = true;
                             theMove.right = aftreFight;
+                            theMove.fight = right;
                         }
                     }
                     // если на клетке стоит белая фигура и ход черных
@@ -350,6 +354,7 @@ namespace Checkers
                         {
                             theMove.isFight = true;
                             theMove.right = aftreFight;
+                            theMove.fight = right;
                         }
                     }
 
@@ -579,7 +584,12 @@ namespace Checkers
 
                         if (figure.move.isFight)
                         {
-                            
+                            // уберем шашку которую перепрыгиваем
+                            PrintBlack(Cells[figure.move.fight.x, figure.move.fight.y]);
+                            // очистка убитой шашки
+                            Cells[figure.move.fight.x, figure.move.fight.y].Fig = null;
+
+                            //TODO: доделать выбрасывание убитой шашки из массива WhiteFigs или BlackFigs
                         }
                         else
                         {

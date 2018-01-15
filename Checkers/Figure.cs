@@ -42,7 +42,10 @@ namespace Checkers
         public bool isMove;   // возможность хода в принципе
 
         public Coordinate left, right;
-     
+
+        // координаты ячейки боя, с которой нужно будет убрать шашку
+        public Coordinate fight;
+
         public bool isFight;   // признак боя
         public int xbackleft, ybackleft;
         public int xbackright, ybackright;
