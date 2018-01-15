@@ -513,6 +513,45 @@ namespace Checkers
             return returnToMove;
         }
 
+        /// <summary>
+        /// удаляет фигуру из списка доступных фигур, после того как ее побили
+        /// </summary>
+        public void DelFigure(Figure delFigure)
+        {
+            // для черных и белых отдельные списки
+            if (delFigure.State == FigureState.Black)
+            {
+                for (int i = 0; i < CnstFigCnt; i++)
+                {
+                    // если фигура удалена из списка (побита) то пропускаем ее
+                    if (BlackFigs[i] == null) continue;
+
+                    // сверяем координаты, если они сопадут значит это искомая фигура и ее надо выкинуть
+                    if (BlackFigs[i].x == delFigure.x && BlackFigs[i].y == delFigure.y)
+                    {
+                        // удалили и сразу выходим из цикла
+                        BlackFigs[i] = null;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < CnstFigCnt; i++)
+                {
+                    // если фигура удалена из списка (побита) то пропускаем ее
+                    if (WhiteFigs[i] == null) continue;
+
+                    // сверяем координаты, если они сопадут значит это искомая фигура и ее надо выкинуть
+                    if (WhiteFigs[i].x == delFigure.x && WhiteFigs[i].y == delFigure.y)
+                    {
+                        // удалили и сразу выходим из цикла
+                        WhiteFigs[i] = null;
+                        break;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// выбор фигуры для хода
@@ -617,12 +656,11 @@ namespace Checkers
                             // уберем шашку которую перепрыгиваем
                             PrintBlack(Cells[figure.move.fight.x, figure.move.fight.y]);
                             // очистка убитой шашки
+                            Figure delFigure = Cells[figure.move.fight.x, figure.move.fight.y].Fig;
+                            // удаляем из списка фигур
+                            DelFigure(delFigure);
+                            // удаляем с поля
                             Cells[figure.move.fight.x, figure.move.fight.y].Fig = null;
-
-                            //TODO: доделать выбрасывание убитой шашки из массива WhiteFigs или BlackFigs
-                        }
-                        else
-                        {
                         }
 
                         // на месте откуда походили рисуем пустую черную клетку (без шашки)
