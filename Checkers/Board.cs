@@ -300,6 +300,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.left = aftreFight;
                         }
                     }
                     // если на клетке стоит белая фигура и ход черных
@@ -311,6 +312,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.left = aftreFight;
                         }
                     }
                 }
@@ -335,6 +337,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.right = aftreFight;
                         }
                     }
                     // если на клетке стоит белая фигура и ход черных
@@ -346,6 +349,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
+                            theMove.right = aftreFight;
                         }
                     }
 
@@ -572,28 +576,30 @@ namespace Checkers
                 switch (use)
                 {
                     case ConsoleKey.Enter:
+
                         if (figure.move.isFight)
                         {
                             
                         }
                         else
                         {
-                            // на месте откуда походили рисуем пустую черную клетку (без шашки)
-                            PrintBlack(Cells[figure.x, figure.y]);
-                            // меняем фон выбора, на фон черной клетки
-                            PrintBlack(selectMove);
-
-                            // перемещение фигуры внутри массива Cells - очистка старой
-                            Cells[figure.x, figure.y].Fig = null;
-
-                            figure.x = selectMove.x;
-                            figure.y = selectMove.y;
-                            PrintOneFigure(figure, figure.GetColorByState());
-
-                            // перемещение фигуры внутри массива Cells - установка новой
-                            Cells[figure.x, figure.y].Fig = figure;
                         }
-                        
+
+                        // на месте откуда походили рисуем пустую черную клетку (без шашки)
+                        PrintBlack(Cells[figure.x, figure.y]);
+                        // меняем фон выбора, на фон черной клетки
+                        PrintBlack(selectMove);
+
+                        // перемещение фигуры внутри массива Cells - очистка старой
+                        Cells[figure.x, figure.y].Fig = null;
+
+                        figure.x = selectMove.x;
+                        figure.y = selectMove.y;
+                        PrintOneFigure(figure, figure.GetColorByState());
+
+                        // перемещение фигуры внутри массива Cells - установка новой
+                        Cells[figure.x, figure.y].Fig = figure;
+
                         break;
 
                     case ConsoleKey.Escape:
