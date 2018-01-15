@@ -381,6 +381,9 @@ namespace Checkers
 
             for (int i = 0; i < CnstFigCnt; i++)
             {
+                // если фигура удалена из списка (побита) то пропускаем ее
+                if (WhiteFigs[i] == null) continue;
+
                 Figure theFig = GetFigMove(WhiteFigs[i]);
                 if (theFig.move.isMove)
                 {
@@ -394,12 +397,13 @@ namespace Checkers
                     figFightCnt++;
                 }
             }
-            
-            Figure[] returnToMove = new Figure[figMoveCnt];
+
+            Figure[] returnToMove;
 
             // фигуры для боя имеют приимущество
             if (figFightCnt > 0)
             {
+                returnToMove = new Figure[figFightCnt];
                 for (int i = 0, j = 0; i < CnstFigCnt; i++)
                 {
                     if (figuresToFight[i] != null)
@@ -411,6 +415,7 @@ namespace Checkers
             }
             else
             {
+                returnToMove = new Figure[figMoveCnt];
                 for (int i = 0, j = 0; i < CnstFigCnt; i++)
                 {
                     if (figuresToMove[i] != null)
@@ -440,6 +445,9 @@ namespace Checkers
 
             for (int i = 0; i < CnstFigCnt; i++)
             {
+                // если фигура удалена из списка (побита) то пропускаем ее
+                if (BlackFigs[i] == null) continue;
+
                 Figure theFig = GetFigMove(BlackFigs[i]);
                 if (theFig.move.isMove)
                 {
@@ -454,11 +462,12 @@ namespace Checkers
                 }
             }
 
-            Figure[] returnToMove = new Figure[figMoveCnt];
+            Figure[] returnToMove;
 
             // фигуры для боя имеют приимущество
             if (figFightCnt > 0)
             {
+                returnToMove = new Figure[figFightCnt];
                 for (int i = 0, j = 0; i < CnstFigCnt; i++)
                 {
                     if (figuresToFight[i] != null)
@@ -470,6 +479,7 @@ namespace Checkers
             }
             else
             {
+                returnToMove = new Figure[figMoveCnt];
                 for (int i = 0, j = 0; i < CnstFigCnt; i++)
                 {
                     if (figuresToMove[i] != null)
