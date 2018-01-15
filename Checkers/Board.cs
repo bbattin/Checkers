@@ -265,6 +265,7 @@ namespace Checkers
             FigMove theMove = new FigMove();
 
             theMove.isMove = false;
+            theMove.isFight = false;
 
             Coordinate left, right;
 
@@ -279,9 +280,10 @@ namespace Checkers
                 right = new Coordinate(Fig.x + 1, Fig.y + 1);
             }
 
+            // проверка хода налево
             if (CheckBorder(left.x, left.y))
             {
-                // простой ход
+                // простой ход - клетка свободна
                 if (Cells[left.x, left.y].Fig == null)
                 {
                     theMove.isMove = true;
@@ -300,7 +302,6 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.left = aftreFight;
                             // клетка которую перепрыгиваем и на котрой стоит шашка другого цвета
                             theMove.fight = left;
@@ -315,7 +316,6 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.left = aftreFight;
                             theMove.fight = left;
                         }
@@ -323,12 +323,17 @@ namespace Checkers
                 }
             }
 
+            // проверка хода вправо
             if (CheckBorder(right.x, right.y))
             { 
                 if (Cells[right.x, right.y].Fig == null)
                 {
-                    theMove.isMove = true;
-                    theMove.right = right;
+                    // тольк если ход на лево не был боем, оставим возможность походить вправо
+                    if (theMove.isFight == false)
+                    {
+                        theMove.isMove = true;
+                        theMove.right = right;
+                    }
                 }
                 else
                 {
@@ -342,9 +347,15 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.right = aftreFight;
                             theMove.fight = right;
+
+                            // если определили что можно походить на лево, то это нужно отменить при бое
+                            if (theMove.isMove)
+                            {
+                                theMove.isMove = false;
+                                theMove.left = null;
+                            }
                         }
                     }
                     // если на клетке стоит белая фигура и ход черных
@@ -356,9 +367,14 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.isMove = false;
                             theMove.right = aftreFight;
                             theMove.fight = right;
+                            // если определили что можно походить на лево, то это нужно отменить при бое
+                            if (theMove.isMove)
+                            {
+                                theMove.isMove = false;
+                                theMove.left = null;
+                            }
                         }
                     }
 
@@ -497,6 +513,45 @@ namespace Checkers
             return returnToMove;
         }
 
+        /// <summary>
+        /// удаляет фигуру из списка доступных фигур, после того как ее побили
+        /// </summary>
+        public void DelFigure(Figure delFigure)
+        {
+            // для черных и белых отдельные списки
+            if (delFigure.State == FigureState.Black)
+            {
+                for (int i = 0; i < CnstFigCnt; i++)
+                {
+                    // если фигура удалена из списка (побита) то пропускаем ее
+                    if (BlackFigs[i] == null) continue;
+
+                    // сверяем координаты, если они сопадут значит это искомая фигура и ее надо выкинуть
+                    if (BlackFigs[i].x == delFigure.x && BlackFigs[i].y == delFigure.y)
+                    {
+                        // удалили и сразу выходим из цикла
+                        BlackFigs[i] = null;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < CnstFigCnt; i++)
+                {
+                    // если фигура удалена из списка (побита) то пропускаем ее
+                    if (WhiteFigs[i] == null) continue;
+
+                    // сверяем координаты, если они сопадут значит это искомая фигура и ее надо выкинуть
+                    if (WhiteFigs[i].x == delFigure.x && WhiteFigs[i].y == delFigure.y)
+                    {
+                        // удалили и сразу выходим из цикла
+                        WhiteFigs[i] = null;
+                        break;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// выбор фигуры для хода
@@ -601,12 +656,11 @@ namespace Checkers
                             // уберем шашку которую перепрыгиваем
                             PrintBlack(Cells[figure.move.fight.x, figure.move.fight.y]);
                             // очистка убитой шашки
+                            Figure delFigure = Cells[figure.move.fight.x, figure.move.fight.y].Fig;
+                            // удаляем из списка фигур
+                            DelFigure(delFigure);
+                            // удаляем с поля
                             Cells[figure.move.fight.x, figure.move.fight.y].Fig = null;
-
-                            //TODO: доделать выбрасывание убитой шашки из массива WhiteFigs или BlackFigs
-                        }
-                        else
-                        {
                         }
 
                         // на месте откуда походили рисуем пустую черную клетку (без шашки)
