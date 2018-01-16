@@ -180,19 +180,29 @@ namespace Checkers
 
         public static void PrintWinner(string player)
         {
-            Console.Clear();
-            Console.SetCursorPosition(30, 10);
+            
+            Console.SetCursorPosition(40, 3);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("{0}, you win!", player);
+            Console.WriteLine("  {0}, you win!  ", player);
             Console.ReadKey();
             Environment.Exit(0);
         }
 
         public static string GetNamesPlayers(int numberPlayer)
         {
+            string colFigs;
             Console.SetCursorPosition(5, 3);
-            Console.WriteLine("Enter player name {0}: ", numberPlayer);
+            if (numberPlayer == 1)
+            {
+                colFigs = "write";
+
+            }
+            else
+            {
+                colFigs = "black";
+            }
+            Console.WriteLine("Enter player name for {0} figures: ", colFigs);
             Console.SetCursorPosition(5, 5);
             string player = Console.ReadLine();
             Console.Clear();
