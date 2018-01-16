@@ -34,6 +34,31 @@ namespace Checkers
         }
     }
 
+    public class MoveFight
+    {
+        // координаты хода
+        public Coordinate move;
+        // координаты ячейки боя, с которой нужно будет убрать шашку
+        public Coordinate fight;
+
+        public MoveFight(int x, int y)
+        {
+            this.move = new Coordinate(x, y);
+        }
+
+        public MoveFight(Coordinate coordM)
+        {
+            this.move = coordM;
+        }
+
+        public MoveFight(Coordinate coordM, Coordinate coordF)
+        {
+            this.move = coordM;
+            this.fight = coordF;
+        }
+
+    }
+
     /// <summary>
     /// координаты клеток, на которые можно походить
     /// </summary>
@@ -41,14 +66,9 @@ namespace Checkers
     {
         public bool isMove;   // возможность хода в принципе
 
-        public Coordinate left, right;
-
-        // координаты ячейки боя, с которой нужно будет убрать шашку
-        public Coordinate fight;
-
+        public MoveFight left, right, backleft, backright;
+        
         public bool isFight;   // признак боя
-        public int xbackleft, ybackleft;
-        public int xbackright, ybackright;
     }
 
 

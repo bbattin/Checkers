@@ -147,7 +147,7 @@ namespace Checkers
                 if (Cells[left.x, left.y].Fig == null)
                 {
                     theMove.isMove = true;
-                    theMove.left = left;
+                    theMove.left = new MoveFight(left);
                 }
                 // клетка занята, нужно проверить возможность боя
                 else 
@@ -162,9 +162,8 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.left = aftreFight;
-                            // клетка которую перепрыгиваем и на котрой стоит шашка другого цвета
-                            theMove.fight = left;
+                            // ход с боем
+                            theMove.left = new MoveFight(aftreFight, left);
                         }
                     }
                     // если на клетке стоит белая фигура и ход черных
@@ -176,8 +175,8 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.left = aftreFight;
-                            theMove.fight = left;
+                            // ход с боем
+                            theMove.left = new MoveFight(aftreFight, left);
                         }
                     }
                 }
@@ -192,7 +191,7 @@ namespace Checkers
                     if (theMove.isFight == false)
                     {
                         theMove.isMove = true;
-                        theMove.right = right;
+                        theMove.right = new MoveFight(right);
                     }
                 }
                 else
@@ -207,8 +206,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.right = aftreFight;
-                            theMove.fight = right;
+                            theMove.right = new MoveFight(aftreFight, right);
 
                             // если определили что можно походить на лево, то это нужно отменить при бое
                             if (theMove.isMove)
@@ -227,8 +225,7 @@ namespace Checkers
                         if (CheckBorder(aftreFight.x, aftreFight.y) && Cells[aftreFight.x, aftreFight.y].Fig == null)
                         {
                             theMove.isFight = true;
-                            theMove.right = aftreFight;
-                            theMove.fight = right;
+                            theMove.right = new MoveFight(aftreFight, right);
                             // если определили что можно походить на лево, то это нужно отменить при бое
                             if (theMove.isMove)
                             {
@@ -237,7 +234,6 @@ namespace Checkers
                             }
                         }
                     }
-
                 }
             }
 
@@ -477,12 +473,12 @@ namespace Checkers
         /// <param name="figure"></param>
         public void MoveFigure(Figure figure)
         {
-            
-            Cell selectMove = CheckCellsForLeftMove(figure);
-            // сюда будем запоминать координату предыдущего выбора хода, если она не меняется то перекрашивать ячейки не будем
-            int prevX = selectMove.x;
 
-            UI.PrintMove(selectMove);
+            MoveFight selectMove = CheckCellsForLeftMove(figure);
+            // сюда будем запоминать координату предыдущего выбора хода, если она не меняется то перекрашивать ячейки не будем
+            int prevX = selectMove.move.x;
+
+            UI.PrintMove(Cells[selectMove.move.x, selectMove.move.y]);
 
             ConsoleKey use;
 
@@ -496,25 +492,25 @@ namespace Checkers
                         if (figure.move.isFight)
                         {
                             // уберем шашку которую перепрыгиваем
-                            UI.PrintBlack(Cells[figure.move.fight.x, figure.move.fight.y]);
+                            UI.PrintBlack(Cells[selectMove.fight.x, selectMove.fight.y]);
                             // очистка убитой шашки
-                            Figure delFigure = Cells[figure.move.fight.x, figure.move.fight.y].Fig;
+                            Figure delFigure = Cells[selectMove.fight.x, selectMove.fight.y].Fig;
                             // удаляем из списка фигур
                             DelFigure(delFigure);
                             // удаляем с поля
-                            Cells[figure.move.fight.x, figure.move.fight.y].Fig = null;
+                            Cells[selectMove.fight.x, selectMove.fight.y].Fig = null;
                         }
 
                         // на месте откуда походили рисуем пустую черную клетку (без шашки)
                         UI.PrintBlack(Cells[figure.x, figure.y]);
                         // меняем фон выбора, на фон черной клетки
-                        UI.PrintBlack(selectMove);
+                        UI.PrintBlack(Cells[selectMove.move.x, selectMove.move.y]);
 
                         // перемещение фигуры внутри массива Cells - очистка старой
                         Cells[figure.x, figure.y].Fig = null;
 
-                        figure.x = selectMove.x;
-                        figure.y = selectMove.y;
+                        figure.x = selectMove.move.x;
+                        figure.y = selectMove.move.y;
                         UI.PrintOneFigure(figure, figure.GetColorByState());
 
                         // перемещение фигуры внутри массива Cells - установка новой
@@ -529,11 +525,11 @@ namespace Checkers
                     case ConsoleKey.RightArrow:
 
                         selectMove = CheckCellsForRightMove(figure);
-                        if (prevX != selectMove.x)
+                        if (prevX != selectMove.move.x)
                         {
-                            UI.PrintMove(selectMove);
-                            UI.PrintBlack(Cells[figure.move.left.x, figure.move.left.y]);
-                            prevX = selectMove.x;
+                            UI.PrintMove(Cells[selectMove.move.x, selectMove.move.y]);
+                            UI.PrintBlack(Cells[figure.move.left.move.x, figure.move.left.move.y]);
+                            prevX = selectMove.move.x;
                         }
                         break;
 
@@ -541,11 +537,11 @@ namespace Checkers
                     case ConsoleKey.LeftArrow:
 
                         selectMove = CheckCellsForLeftMove(figure);
-                        if (prevX != selectMove.x)
+                        if (prevX != selectMove.move.x)
                         {
-                            UI.PrintMove(selectMove);
-                            UI.PrintBlack(Cells[figure.move.right.x, figure.move.right.y]);
-                            prevX = selectMove.x;
+                            UI.PrintMove(Cells[selectMove.move.x, selectMove.move.y]);
+                            UI.PrintBlack(Cells[figure.move.right.move.x, figure.move.right.move.y]);
+                            prevX = selectMove.move.x;
                         }
                         break;
 
@@ -560,35 +556,33 @@ namespace Checkers
         /// </summary>
         /// <param name="figure"></param>
         /// <returns></returns>
-        private Cell CheckCellsForLeftMove(Figure figure)
+        private MoveFight CheckCellsForLeftMove(Figure figure)
         {
-            Cell selectMove;
+            MoveFight selectMove;
 
             if (figure.move.left != null)
             {
-                selectMove = Cells[figure.move.left.x, figure.move.left.y];
-
+                selectMove = figure.move.left;
             }
             else
             {
-                selectMove = Cells[figure.move.right.x, figure.move.right.y];
+                selectMove = figure.move.right;
             }
 
             return selectMove;
         }
 
-        private Cell CheckCellsForRightMove(Figure figure)
+        private MoveFight CheckCellsForRightMove(Figure figure)
         {
-            Cell selectMove;
+            MoveFight selectMove;
 
             if (figure.move.right != null)
             {
-                selectMove = Cells[figure.move.right.x, figure.move.right.y];
-
+                selectMove = figure.move.right;
             }
             else
             {
-                selectMove = Cells[figure.move.left.x, figure.move.left.y];
+                selectMove = figure.move.left;
             }
 
             return selectMove;
