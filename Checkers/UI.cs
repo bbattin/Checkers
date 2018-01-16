@@ -180,13 +180,29 @@ namespace Checkers
 
         public static void PrintWinner(string player)
         {
-            
+
             Console.SetCursorPosition(40, 3);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("  {0}, you win!  ", player);
-            Console.ReadKey();
-            Environment.Exit(0);
+            Console.WriteLine("{0}, you win!", player);
+            Console.WriteLine();
+            GameContinues();
+        }
+
+        public static void GameContinues()
+        {
+            BoardLogic Pole = new BoardLogic();
+            Console.WriteLine("Do you want to continue the game? - y/n");
+            string answer = Console.ReadLine();
+            answer = answer.ToLower();
+            if (answer == "y")
+            {
+                All();
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
         }
 
         public static string GetNamesPlayers(int numberPlayer)
@@ -208,6 +224,20 @@ namespace Checkers
             Console.Clear();
             return player;
 
+        }
+
+        public static void All()
+        {
+            BoardLogic Pole = new BoardLogic();
+
+            string playerOne = UI.GetNamesPlayers(1);
+            string playerTwo = UI.GetNamesPlayers(2);
+
+            UI.PrintCells(Pole.Cells);
+
+            UI.PrintFigs(Pole.WhiteFigs, Pole.BlackFigs);
+
+            Pole.Game(playerOne, playerTwo);
         }
     }
 }
