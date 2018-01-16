@@ -170,19 +170,34 @@ namespace Checkers
             PrintOneCell(sel, ConsoleColor.DarkGray);
         }
 
-        public static void PrintNumberPlayer(int player)
+        public static void PrintNumberPlayer(string player)
         {
             Console.SetCursorPosition(40, 3);
-            Console.WriteLine("Player {0}", player);
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("  Player {0}  ", player);
         }
 
-        public static void PrintWinner(int player)
+        public static void PrintWinner(string player)
         {
             Console.Clear();
-            Console.SetCursorPosition(30, 20);
-            Console.WriteLine("Player {0} won!", player);
+            Console.SetCursorPosition(30, 10);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("{0}, you win!", player);
             Console.ReadKey();
             Environment.Exit(0);
+        }
+
+        public static string GetNamesPlayers(int numberPlayer)
+        {
+            Console.SetCursorPosition(5, 3);
+            Console.WriteLine("Enter player name {0}: ", numberPlayer);
+            Console.SetCursorPosition(5, 5);
+            string player = Console.ReadLine();
+            Console.Clear();
+            return player;
+
         }
     }
 }

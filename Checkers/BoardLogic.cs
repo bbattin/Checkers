@@ -289,7 +289,7 @@ namespace Checkers
                     }
                 }
             }
-            else
+            if(figMoveCnt > 0)
             {
                 returnToMove = new Figure[figMoveCnt];
                 for (int i = 0, j = 0; i < FIGSCOUNT; i++)
@@ -353,7 +353,7 @@ namespace Checkers
                     }
                 }
             }
-            else
+            if (figMoveCnt > 0)
             {
                 returnToMove = new Figure[figMoveCnt];
                 for (int i = 0, j = 0; i < FIGSCOUNT; i++)
@@ -592,22 +592,20 @@ namespace Checkers
         /// <summary>
         /// метод ходов игры. чередуют ходы белых и черных
         /// </summary>
-        public void Game()
-        {
-            int player = 0;
+        public void Game(string playerOne, string playerTwo)
+        {       
             // ходы в цикле
             while (true)
             {
                 if (isWhiteMove)
                 {
-                    player = 1;
-                    UI.PrintNumberPlayer(player);
+                    UI.PrintNumberPlayer(playerOne);
 
                     Figure[] figuresToMove = GetWhiteMoves();
 
                     if (figuresToMove == null)
                     {
-                        UI.PrintWinner(player);
+                        UI.PrintWinner(playerTwo);
                     }
                     Figure one = SelectFigureForMove(figuresToMove);
 
@@ -618,14 +616,13 @@ namespace Checkers
                 }
                 else
                 {
-                    player = 2;
-                    UI.PrintNumberPlayer(player);
+                    UI.PrintNumberPlayer(playerTwo);
 
                     Figure[] figuresToMove = GetBlacksMoves();
 
                     if (figuresToMove == null)
                     {
-                        UI.PrintWinner(player);
+                        UI.PrintWinner(playerOne);
                     }
                     
                     Figure one = SelectFigureForMove(figuresToMove);

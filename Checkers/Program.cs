@@ -13,11 +13,15 @@ namespace Checkers
             Console.OutputEncoding = System.Text.Encoding.UTF8;
                                   
             BoardLogic Pole = new BoardLogic();
+
+            string playerOne = UI.GetNamesPlayers(1);
+            string playerTwo = UI.GetNamesPlayers(2);
+
             UI.PrintCells(Pole.Cells);
 
             UI.PrintFigs(Pole.WhiteFigs, Pole.BlackFigs);
 
-            Pole.Game();
+            Pole.Game(playerOne, playerTwo);
 
             Console.ReadKey();
         }
