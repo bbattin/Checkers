@@ -274,7 +274,7 @@ namespace Checkers
                 }
             }
 
-            Figure[] returnToMove;
+            Figure[] returnToMove = null;
 
             // фигуры для боя имеют приимущество
             if (figFightCnt > 0)
@@ -338,7 +338,7 @@ namespace Checkers
                 }
             }
 
-            Figure[] returnToMove;
+            Figure[] returnToMove = null;
 
             // фигуры для боя имеют приимущество
             if (figFightCnt > 0)
@@ -609,15 +609,12 @@ namespace Checkers
                     {
                         UI.PrintWinner(player);
                     }
-                    else
-                    {
-                        Figure one = SelectFigureForMove(figuresToMove);
+                    Figure one = SelectFigureForMove(figuresToMove);
 
-                        MoveFigure(one);
+                    MoveFigure(one);
 
-                        isWhiteMove = false;
-                    }
-
+                    isWhiteMove = false;
+                    
                 }
                 else
                 {
@@ -630,14 +627,13 @@ namespace Checkers
                     {
                         UI.PrintWinner(player);
                     }
-                    else
-                    {
-                        Figure one = SelectFigureForMove(figuresToMove);
+                    
+                    Figure one = SelectFigureForMove(figuresToMove);
 
-                        MoveFigure(one);
+                    MoveFigure(one);
 
-                        isWhiteMove = true;
-                    }
+                    isWhiteMove = true;
+                    
                     
                 }
             }
