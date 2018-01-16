@@ -169,5 +169,20 @@ namespace Checkers
             Cell sel = cells[select.x, select.y];
             PrintOneCell(sel, ConsoleColor.DarkGray);
         }
+
+        public static void PrintNumberPlayer(int player)
+        {
+            Console.SetCursorPosition(40, 3);
+            Console.WriteLine("Player {0}", player);
+        }
+
+        public static void PrintWinner(int player)
+        {
+            Console.Clear();
+            Console.SetCursorPosition(30, 20);
+            Console.WriteLine("Player {0} won!", player);
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
     }
 }

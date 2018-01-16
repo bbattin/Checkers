@@ -416,6 +416,7 @@ namespace Checkers
         /// <returns></returns>
         public Figure SelectFigureForMove(Figure[] figuresToMove)
         {
+
             int i = 0;
             Figure select = figuresToMove[i];
             UI.PrintSelecByFig(select, Cells);
@@ -593,38 +594,56 @@ namespace Checkers
         /// </summary>
         public void Game()
         {
+            int player = 0;
             // ходы в цикле
             while (true)
             {
                 if (isWhiteMove)
                 {
-                    Console.SetCursorPosition(40, 3);
-                    Console.WriteLine("Player 1");
+                    player = 1;
+                    UI.PrintNumberPlayer(player);
 
                     Figure[] figuresToMove = GetWhiteMoves();
 
-                    Figure one = SelectFigureForMove(figuresToMove);
+                    if (figuresToMove == null)
+                    {
+                        UI.PrintWinner(player);
+                    }
+                    else
+                    {
+                        Figure one = SelectFigureForMove(figuresToMove);
 
-                    MoveFigure(one);
+                        MoveFigure(one);
 
-                    isWhiteMove = false;
-                    
+                        isWhiteMove = false;
+                    }
+
                 }
                 else
                 {
-                    Console.SetCursorPosition(40, 3);
-                    Console.WriteLine("Player 2");
+                    player = 2;
+                    UI.PrintNumberPlayer(player);
 
                     Figure[] figuresToMove = GetBlacksMoves();
 
-                    Figure one = SelectFigureForMove(figuresToMove);
+                    if (figuresToMove == null)
+                    {
+                        UI.PrintWinner(player);
+                    }
+                    else
+                    {
+                        Figure one = SelectFigureForMove(figuresToMove);
 
-                    MoveFigure(one);
+                        MoveFigure(one);
 
-                    isWhiteMove = true;
+                        isWhiteMove = true;
+                    }
+                    
                 }
             }
         }
+
+       
 
     }
 }
