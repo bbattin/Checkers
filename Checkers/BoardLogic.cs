@@ -236,6 +236,21 @@ namespace Checkers
                     }
                 }
             }
+            
+            // бой назад
+            Coordinate backleft, backright;
+
+            if (isWhiteMove)
+            {
+                left = new Coordinate(Fig.x - 1, Fig.y + 1);
+                right = new Coordinate(Fig.x + 1, Fig.y + 1);
+            }
+            else
+            {
+                left = new Coordinate(Fig.x - 1, Fig.y - 1);
+                right = new Coordinate(Fig.x + 1, Fig.y - 1);
+            }
+
 
             Fig.move = theMove;
             return Fig;
@@ -289,7 +304,8 @@ namespace Checkers
                     }
                 }
             }
-            if(figMoveCnt > 0)
+            // если есть ход и нет боя
+            if (figFightCnt ==0 && figMoveCnt > 0)
             {
                 returnToMove = new Figure[figMoveCnt];
                 for (int i = 0, j = 0; i < FIGSCOUNT; i++)
@@ -353,6 +369,7 @@ namespace Checkers
                     }
                 }
             }
+            // если есть ход и нет боя
             if (figMoveCnt > 0)
             {
                 returnToMove = new Figure[figMoveCnt];
