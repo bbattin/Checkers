@@ -616,7 +616,7 @@ namespace Checkers
             {
                 if (isWhiteMove)
                 {
-                    UI.PrintNumberPlayer(playerOne);
+                    UI.PrintNamePlayer(playerOne);
 
                     Figure[] figuresToMove = GetWhiteMoves();
 
@@ -633,7 +633,7 @@ namespace Checkers
                 }
                 else
                 {
-                    UI.PrintNumberPlayer(playerTwo);
+                    UI.PrintNamePlayer(playerTwo);
 
                     Figure[] figuresToMove = GetBlacksMoves();
 

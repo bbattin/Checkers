@@ -170,7 +170,7 @@ namespace Checkers
             PrintOneCell(sel, ConsoleColor.DarkGray);
         }
 
-        public static void PrintNumberPlayer(string player)
+        public static void PrintNamePlayer(string player)
         {
             Console.SetCursorPosition(40, 3);
             Console.BackgroundColor = ConsoleColor.White;
