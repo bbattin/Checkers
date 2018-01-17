@@ -186,7 +186,7 @@ namespace Checkers
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("  {0}, you win!  ", player);
             Console.WriteLine();
-            GameContinue();
+            
         }
 
         public static void GameContinue()

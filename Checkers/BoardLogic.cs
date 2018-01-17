@@ -640,6 +640,7 @@ namespace Checkers
                     if (figuresToMove == null)
                     {
                         UI.PrintWinner(playerOne);
+                        UI.GameContinue();
                     }
                     
                     Figure one = SelectFigureForMove(figuresToMove);
