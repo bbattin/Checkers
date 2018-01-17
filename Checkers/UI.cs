@@ -184,23 +184,29 @@ namespace Checkers
             Console.SetCursorPosition(40, 3);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("{0}, you win!", player);
+            Console.WriteLine("  {0}, you win!  ", player);
             Console.WriteLine();
-            GameContinues();
+            GameContinue();
         }
 
-        public static void GameContinues()
+        public static void GameContinue()
         {
-            BoardLogic Pole = new BoardLogic();
-            Console.WriteLine("Do you want to continue the game? - y/n");
+            Console.SetCursorPosition(40, 6);
+            Console.WriteLine("Do you want to start a new game? - y/n");
+            Console.SetCursorPosition(40, 9);
             string answer = Console.ReadLine();
             answer = answer.ToLower();
             if (answer == "y")
             {
-                All();
+                Console.Clear();
+                FullGame();
             }
             else
             {
+                Console.Clear();
+                Console.SetCursorPosition(40, 9);
+                Console.WriteLine("Thanks for playing, bye");
+                Console.ReadKey();
                 Environment.Exit(0);
             }
         }
@@ -226,7 +232,7 @@ namespace Checkers
 
         }
 
-        public static void All()
+        public static void FullGame()
         {
             BoardLogic Pole = new BoardLogic();
 

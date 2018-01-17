@@ -370,7 +370,7 @@ namespace Checkers
                 }
             }
             // если есть ход и нет боя
-            if (figMoveCnt > 0)
+            if (figFightCnt == 0 && figMoveCnt > 0)
             {
                 returnToMove = new Figure[figMoveCnt];
                 for (int i = 0, j = 0; i < FIGSCOUNT; i++)
